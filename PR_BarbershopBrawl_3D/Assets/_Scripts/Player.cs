@@ -442,6 +442,10 @@ public class Player : DamageableEntity {
 	}
 	#endregion
 
+	public Vector3 GetPosition() {
+		return new Vector3(damageSource.position.x, 0, damageSource.position.z);
+	}
+
 	#region Debug
 	private void DebugTint(Color c) {
 		if (!debugPlayerModel) return;

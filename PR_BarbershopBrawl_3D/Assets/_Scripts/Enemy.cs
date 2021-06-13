@@ -23,7 +23,7 @@ public abstract class Enemy : DamageableEntity {
 	#endregion
 
 	#region Component
-	[SerializeField] NavMeshAgent pathfinding;
+	[SerializeField] protected NavMeshAgent pathfinding;
 	[SerializeField] Rigidbody physicsBody;
 	[SerializeField] float kickWindupTime;
 	[SerializeField] float lightAttackCompletionTime;
