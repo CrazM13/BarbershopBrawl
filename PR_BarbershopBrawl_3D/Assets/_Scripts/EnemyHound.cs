@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class EnemyRegularDude : Enemy {
+public class EnemyHound : Enemy {
 
-	public float lightChance;
-	public float heavyChance;
 	public float meleeDistanceToPlayer;
 
 	// Start is called before the first frame update
@@ -25,12 +23,7 @@ public class EnemyRegularDude : Enemy {
 			if (Vector3.Distance(transform.position, playerPos) > meleeDistanceToPlayer) {
 				MoveToLocation(playerPos);
 			} else {
-				pathfinding.SetDestination(transform.position);
-				if (Random.value < lightChance) {
-					StartLightAttack();
-				} else if (Random.value < heavyChance) {
-					StartHeavyAttack();
-				}
+				StartHeavyAttack();
 			}
 		}
 	}

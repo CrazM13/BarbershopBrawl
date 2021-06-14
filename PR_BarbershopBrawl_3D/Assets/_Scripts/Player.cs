@@ -266,27 +266,35 @@ public class Player : DamageableEntity {
 
 		switch (damage.Type) {
 			case Damage.DamageType.KNOCKDOWN:
-				state = PlayerState.STUNNED;
-				stunTimeRemaining = stunDuration;
-				physicsBody.AddForce(damage.Direction * damage.Amount);
+				if (CanBeDamagedInState(state)) {
+					Hurt(1);
+				} else if (state == PlayerState.BLOCKING) {
+					state = PlayerState.STUNNED;
+					stunTimeRemaining = stunDuration;
+					physicsBody.AddForce(damage.Direction * damage.Amount * 100);
+				}
 				break;
 			default:
 				if (CanBeDamagedInState(state)) {
-					animationController.SetTrigger("hurt");
-
-					state = PlayerState.STUNNED;
-					stunTimeRemaining = 1.1533f;
-
-					Health -= damage.Amount;
-
-					if (Health <= 0) {
-						// Player Death
-					}
+					Hurt(damage.Amount);
 				}
-
 				break;
 		}
 	}
+
+	private void Hurt(int amount) {
+		animationController.SetTrigger("hurt");
+
+		state = PlayerState.STUNNED;
+		stunTimeRemaining = 1.1533f;
+
+		Health -= amount;
+
+		if (Health <= 0) {
+			// Player Death
+		}
+	}
+
 	#endregion
 
 	#region Movement

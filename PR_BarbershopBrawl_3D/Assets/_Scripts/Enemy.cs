@@ -25,9 +25,11 @@ public abstract class Enemy : DamageableEntity {
 	#region Component
 	[SerializeField] protected NavMeshAgent pathfinding;
 	[SerializeField] Rigidbody physicsBody;
+	[SerializeField] ExtendoScript rangedItem;
 	#endregion
 
 	#region Settings
+	[SerializeField] float speed;
 	[SerializeField] float stunDuration;
 	[SerializeField] float kickWindupTime;
 	[SerializeField] float kickDistance;
@@ -157,7 +159,11 @@ public abstract class Enemy : DamageableEntity {
 
 	protected void StartKickAttack() {
 		state = EnemyState.KICK_WINDUP;
-		heavyAttackTimeRemaining = kickWindupTime;
+		kickTimeRemaining = kickWindupTime;
+	}
+
+	protected void Fire() {
+		bool success = rangedItem?.Fire(transform.forward) ?? false;
 	}
 
 }
