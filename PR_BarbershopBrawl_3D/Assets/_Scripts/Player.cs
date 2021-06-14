@@ -28,6 +28,7 @@ public class Player : DamageableEntity {
 	[SerializeField] Transform rotationTransform;
 	[SerializeField] Transform damageSource;
 	[SerializeField] Animator animationController;
+	[SerializeField] ExtendoScript extendo;
 	#endregion
 
 	#region Settings
@@ -61,6 +62,7 @@ public class Player : DamageableEntity {
 	private bool isHeavyAttackButtonDown = false;
 	private bool isDodgeButtonDown = false;
 	private bool isKickButtonDown = false;
+	private bool isFireButtonDown = false;
 
 	public Vector3 LastLookVector { get; private set; } = Vector2.zero;
 
@@ -91,6 +93,8 @@ public class Player : DamageableEntity {
 		UpdateLightAttack();
 
 		UpdateHeavyAttack();
+
+		UpdateFire();
 	}
 
 	private void UpdateMovement() {
@@ -244,6 +248,17 @@ public class Player : DamageableEntity {
 
 		isLightAttackButtonDown = Input.GetAxis("Light Attack") > 0;
 	}
+
+	private void UpdateFire() {
+		if (CanFireInState(state)) {
+			if (!isFireButtonDown && Input.GetAxis("Fire") > 0) {
+				Fire();
+			}
+		}
+
+		isFireButtonDown = Input.GetAxis("Fire") > 0;
+	}
+
 	#endregion
 
 	#region Damage
@@ -398,6 +413,14 @@ public class Player : DamageableEntity {
 
 	}
 
+	#endregion
+
+	#region Fire
+	public void Fire() {
+		bool success = extendo.Fire(LastLookVector);
+
+		if (success) animationController.SetTrigger("fire");
+	}
 	#endregion
 
 	#region State Permissions
