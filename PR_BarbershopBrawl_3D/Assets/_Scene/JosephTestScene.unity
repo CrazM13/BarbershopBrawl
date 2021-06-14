@@ -232,23 +232,23 @@ MonoBehaviour:
   physicsBody: {fileID: 577769701}
   rotationTransform: {fileID: 959008557}
   damageSource: {fileID: 1186467869}
-  debugPlayerModel: {fileID: 0}
-  debugKickIndicator: {fileID: 0}
+  animationController: {fileID: 1440517963}
   movementSpeed: 1
   aimSpeedModifier: 1
-  dodgeForce: 30
-  dodgeCompletionTime: 0.5
-  kickWindupTime: 1
+  dodgeForce: 2
+  dodgeDecaySpeed: 1.5
+  dodgeCompletionTime: 1.4
+  kickWindupTime: 0.7
   kickDistance: 2
   kickForce: 20
   stunDuration: 2
   lightAttackCompletionTime: 0.5
-  lightAttackWindupTime: 1
-  lightAttackDuration: 2
+  lightAttackWindupTime: 1.1165
+  lightAttackDuration: 1.1165
   lightAttackRange: 2
   lightAttackDamage: 1
-  heavyAttackWindupTime: 3
-  heavyAttackDuration: 2
+  heavyAttackWindupTime: 1.1335
+  heavyAttackDuration: 1.1335
   heavyAttackRange: 2
   heavyAttackDamage: 3
 --- !u!54 &577769701
@@ -435,7 +435,10 @@ MonoBehaviour:
   maxHealth: 10
   pathfinding: {fileID: 0}
   physicsBody: {fileID: 1075536972}
+  stunDuration: 3
   kickWindupTime: 0
+  kickDistance: 0
+  kickForce: 0
   lightAttackCompletionTime: 0
   lightAttackWindupTime: 0
   lightAttackDuration: 0
@@ -445,7 +448,6 @@ MonoBehaviour:
   heavyAttackDuration: 0
   heavyAttackRange: 0
   heavyAttackDamage: 0
-  stunDuration: 3
 --- !u!54 &1075536972
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -915,6 +917,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8de424e098fdb7b4893d01ba6a0b5146, type: 3}
+--- !u!95 &1440517963 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 8de424e098fdb7b4893d01ba6a0b5146, type: 3}
+  m_PrefabInstance: {fileID: 1440517962}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1787317420
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,7 +1074,10 @@ MonoBehaviour:
   maxHealth: 10
   pathfinding: {fileID: 2087641556}
   physicsBody: {fileID: 2087641558}
+  stunDuration: 2
   kickWindupTime: 2
+  kickDistance: 0
+  kickForce: 0
   lightAttackCompletionTime: 2
   lightAttackWindupTime: 2
   lightAttackDuration: 2
@@ -1077,7 +1087,6 @@ MonoBehaviour:
   heavyAttackDuration: 2
   heavyAttackRange: 2
   heavyAttackDamage: 2
-  stunDuration: 2
   lightChance: 2
   heavyChance: 2
   meleeDistanceToPlayer: 2

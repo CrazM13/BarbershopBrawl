@@ -25,7 +25,13 @@ public abstract class Enemy : DamageableEntity {
 	#region Component
 	[SerializeField] protected NavMeshAgent pathfinding;
 	[SerializeField] Rigidbody physicsBody;
+	#endregion
+
+	#region Settings
+	[SerializeField] float stunDuration;
 	[SerializeField] float kickWindupTime;
+	[SerializeField] float kickDistance;
+	[SerializeField] int kickForce;
 	[SerializeField] float lightAttackCompletionTime;
 	[SerializeField] float lightAttackWindupTime;
 	[SerializeField] float lightAttackDuration;
@@ -35,10 +41,6 @@ public abstract class Enemy : DamageableEntity {
 	[SerializeField] float heavyAttackDuration;
 	[SerializeField] float heavyAttackRange;
 	[SerializeField] int heavyAttackDamage;
-	#endregion
-
-	#region Settings
-	[SerializeField] float stunDuration;
 	#endregion
 
 	private float stunTimeRemaining = 0;
@@ -60,7 +62,10 @@ public abstract class Enemy : DamageableEntity {
 			kickTimeRemaining -= Time.deltaTime;
 			if (kickTimeRemaining <= 0) {
 
-				// KICK
+				if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, kickDistance)) {
+					Player entity = hit.collider.GetComponentInChildren<Player>();
+					if (entity) entity.OnDamageEntity(Damage.KnockbackDamage(kickForce, transform.forward));
+				}
 
 				state = EnemyState.DEFAULT;
 			}
@@ -82,7 +87,12 @@ public abstract class Enemy : DamageableEntity {
 			lightAttackTimeRemaining -= Time.deltaTime;
 			if (lightAttackTimeRemaining <= 0) {
 
-				// Attack
+				RaycastHit[] hits = Physics.BoxCastAll(transform.position + (transform.forward * lightAttackRange), new Vector3(lightAttackRange, lightAttackRange, lightAttackRange), transform.forward);
+
+				foreach (RaycastHit hit in hits) {
+					Player entity = hit.collider.GetComponentInChildren<Player>();
+					if (entity) entity.OnDamageEntity(Damage.LightDamage(lightAttackDamage));
+				}
 
 				state = EnemyState.LIGHT_COMPLETE;
 				lightAttackTimeRemaining = lightAttackCompletionTime;
@@ -101,7 +111,10 @@ public abstract class Enemy : DamageableEntity {
 			heavyAttackTimeRemaining -= Time.deltaTime;
 			if (heavyAttackTimeRemaining <= 0) {
 
-				// Attack
+				if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, heavyAttackRange)) {
+					Player entity = hit.collider.GetComponentInChildren<Player>();
+					if (entity) entity.OnDamageEntity(Damage.HeavyDamage(heavyAttackDamage));
+				}
 
 				state = EnemyState.DEFAULT;
 			}

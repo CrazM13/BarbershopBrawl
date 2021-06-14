@@ -27,14 +27,14 @@ public class Player : DamageableEntity {
 	[SerializeField] Rigidbody physicsBody;
 	[SerializeField] Transform rotationTransform;
 	[SerializeField] Transform damageSource;
-	[SerializeField] MeshRenderer debugPlayerModel;
-	[SerializeField] GameObject debugKickIndicator;
+	[SerializeField] Animator animationController;
 	#endregion
 
 	#region Settings
 	[SerializeField] float movementSpeed;
 	[SerializeField] float aimSpeedModifier;
 	[SerializeField] float dodgeForce;
+	[SerializeField] float dodgeDecaySpeed;
 	[SerializeField] float dodgeCompletionTime;
 	[SerializeField] float kickWindupTime;
 	[SerializeField] float kickDistance;
@@ -53,6 +53,7 @@ public class Player : DamageableEntity {
 
 	private float stunTimeRemaining = 0;
 	private float timeRemainingInDodge = 0;
+	private Vector3 dodgeForceVector = Vector3.zero;
 	private float kickTimeRemaining = 0;
 	private float lightAttackTimeRemaining = 0;
 	private float heavyAttackTimeRemaining = 0;
@@ -68,9 +69,10 @@ public class Player : DamageableEntity {
 		if (physicsBody == null) Debug.LogError("Player Rigidbody Not Found");
 		if (rotationTransform == null) Debug.LogError("Player Rotation Point Not Found");
 		if (damageSource == null) Debug.LogError("Damage Source Transform Not Found");
-		if (debugPlayerModel == null) Debug.LogError("Debug Player Model Not Found. Debug using it will be ignored");
-		if (debugKickIndicator == null) Debug.LogError("Debug Kick Indicator Not Found. Debug using it will be ignored");
-		#endif
+		if (animationController == null) Debug.LogError("Animation Controller Not Found");
+#endif
+
+		Health = maxHealth;
 	}
 
 	#region Update
@@ -95,6 +97,8 @@ public class Player : DamageableEntity {
 		if (CanMoveInState(state)) {
 			Vector3 movement = ReadMovementInputs();
 
+			animationController.SetBool("is_moving", movement != Vector3.zero);
+
 			Move(movement);
 
 			if (CanLookInState(state)) {
@@ -108,13 +112,18 @@ public class Player : DamageableEntity {
 					LastLookVector = lookVector;
 				}
 			}
-		} else if (CanLookInState(state)) {
-			Vector3 lookVector = ReadLookInputs();
+		} else {
 
-			if (lookVector != Vector3.zero) {
+			animationController.SetBool("is_moving", false);
 
-				TurnPlayerToDirection(lookVector);
-				LastLookVector = lookVector;
+			if (CanLookInState(state)) {
+				Vector3 lookVector = ReadLookInputs();
+
+				if (lookVector != Vector3.zero) {
+
+					TurnPlayerToDirection(lookVector);
+					LastLookVector = lookVector;
+				}
 			}
 		}
 	}
@@ -127,7 +136,12 @@ public class Player : DamageableEntity {
 		}
 		if (state == PlayerState.DODGING) {
 			timeRemainingInDodge -= Time.deltaTime;
-			if (timeRemainingInDodge <= 0) state = PlayerState.DEFAULT;
+			physicsBody.AddForce(dodgeForceVector, ForceMode.Impulse);
+			dodgeForceVector = Vector3.Lerp(dodgeForceVector, Vector3.zero, Time.deltaTime * dodgeDecaySpeed);
+			if (timeRemainingInDodge <= 0) {
+				state = PlayerState.DEFAULT;
+				Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+			}
 		}
 		isDodgeButtonDown = Input.GetAxis("Dodge") > 0;
 	}
@@ -136,14 +150,12 @@ public class Player : DamageableEntity {
 		if (CanBlockInState(state)) {
 			if (Input.GetAxis("Block") > 0) {
 				state = PlayerState.BLOCKING;
-				DebugTint(Color.yellow);
 			}
 		}
 
 		if (state == PlayerState.BLOCKING) {
 			if (Input.GetAxis("Block") <= 0) {
 				state = PlayerState.DEFAULT;
-				DebugTint(Color.grey);
 			}
 		}
 	}
@@ -179,8 +191,6 @@ public class Player : DamageableEntity {
 			lightAttackTimeRemaining -= Time.deltaTime;
 			if (lightAttackTimeRemaining <= 0) {
 				state = PlayerState.DEFAULT;
-
-				DebugTint(Color.grey);
 			}
 		}
 
@@ -189,8 +199,6 @@ public class Player : DamageableEntity {
 			if (lightAttackTimeRemaining <= 0) {
 				state = PlayerState.LIGHT_COMPLETE;
 				lightAttackTimeRemaining = lightAttackCompletionTime;
-
-				DebugTint(Color.blue);
 			}
 		}
 
@@ -199,8 +207,6 @@ public class Player : DamageableEntity {
 			if (lightAttackTimeRemaining <= 0) {
 				state = PlayerState.LIGHT_SWING;
 				lightAttackTimeRemaining = lightAttackDuration;
-
-				DebugTint(Color.red);
 			}
 		}
 
@@ -219,8 +225,6 @@ public class Player : DamageableEntity {
 			heavyAttackTimeRemaining -= Time.deltaTime;
 			if (heavyAttackTimeRemaining <= 0) {
 				state = PlayerState.DEFAULT;
-
-				DebugTint(Color.grey);
 			}
 		}
 
@@ -229,8 +233,6 @@ public class Player : DamageableEntity {
 			if (heavyAttackTimeRemaining <= 0) {
 				state = PlayerState.HEAVY_SWING;
 				heavyAttackTimeRemaining = heavyAttackDuration;
-
-				DebugTint(Color.red);
 			}
 		}
 
@@ -246,6 +248,7 @@ public class Player : DamageableEntity {
 
 	#region Damage
 	public override void OnDamageEntity(Damage damage) {
+
 		switch (damage.Type) {
 			case Damage.DamageType.KNOCKDOWN:
 				state = PlayerState.STUNNED;
@@ -253,7 +256,12 @@ public class Player : DamageableEntity {
 				physicsBody.AddForce(damage.Direction * damage.Amount);
 				break;
 			default:
-				if (!CanBeDamagedInState(state)) {
+				if (CanBeDamagedInState(state)) {
+					animationController.SetTrigger("hurt");
+
+					state = PlayerState.STUNNED;
+					stunTimeRemaining = 1.1533f;
+
 					Health -= damage.Amount;
 
 					if (Health <= 0) {
@@ -318,7 +326,11 @@ public class Player : DamageableEntity {
 
 		if (joyInput == Vector3.zero) joyInput = Vector3.back;
 
-		physicsBody.AddForce(joyInput * dodgeForce, ForceMode.Impulse); 
+		dodgeForceVector = joyInput * dodgeForce;
+
+		animationController.SetTrigger("dodge");
+
+		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 	}
 	#endregion
 
@@ -328,12 +340,11 @@ public class Player : DamageableEntity {
 		kickTimeRemaining = kickWindupTime;
 		state = PlayerState.KICK_WINDUP;
 
-		DebugKickIndicator(true);
+		animationController.SetTrigger("kick");
 	}
 
 	private void KickApplyDamage() {
 		state = PlayerState.DEFAULT;
-		DebugKickIndicator(false);
 
 		if (Physics.Raycast(damageSource.position, LastLookVector, out RaycastHit hit, kickDistance)) {
 			DamageableEntity entity = hit.collider.GetComponentInChildren<DamageableEntity>();
@@ -349,14 +360,13 @@ public class Player : DamageableEntity {
 		if (state == PlayerState.LIGHT_COMPLETE) {
 			state = PlayerState.LIGHT_SWING;
 			lightAttackTimeRemaining = lightAttackDuration;
-
-			DebugTint(Color.red);
 		} else {
 			state = PlayerState.LIGHT_WINDUP;
 			lightAttackTimeRemaining = lightAttackWindupTime;
-
-			DebugTint(Color.green);
 		}
+
+		animationController.SetTrigger("light_attack");
+		animationController.SetBool("light_attack_mirror", !animationController.GetBool("light_attack_mirror"));
 	}
 
 	public void ApplyLightAttackDamage() {
@@ -377,7 +387,7 @@ public class Player : DamageableEntity {
 		state = PlayerState.HEAVY_WINDUP;
 		heavyAttackTimeRemaining = heavyAttackWindupTime;
 
-		DebugTint(Color.green);
+		animationController.SetTrigger("heavy_attack");
 	}
 
 	public void ApplyHeavyAttackDamage() {
@@ -393,8 +403,7 @@ public class Player : DamageableEntity {
 	#region State Permissions
 	public bool CanMoveInState(PlayerState state) {
 		return state == PlayerState.DEFAULT
-			|| state == PlayerState.AIMING
-			|| state == PlayerState.LIGHT_COMPLETE;
+			|| state == PlayerState.AIMING;
 	}
 
 	public bool CanLookInState(PlayerState state) {
@@ -438,6 +447,7 @@ public class Player : DamageableEntity {
 
 	public bool CanBeDamagedInState(PlayerState state) {
 		return state != PlayerState.BLOCKING
+			&& state != PlayerState.STUNNED
 			&& state != PlayerState.DODGING;
 	}
 	#endregion
@@ -446,18 +456,5 @@ public class Player : DamageableEntity {
 		return new Vector3(damageSource.position.x, 0, damageSource.position.z);
 	}
 
-	#region Debug
-	private void DebugTint(Color c) {
-		if (!debugPlayerModel) return;
-
-		debugPlayerModel.material.color = c;
-	}
-
-	private void DebugKickIndicator(bool show) {
-		if (!debugKickIndicator) return;
-
-		debugKickIndicator.SetActive(show);
-	}
-	#endregion
 
 }
