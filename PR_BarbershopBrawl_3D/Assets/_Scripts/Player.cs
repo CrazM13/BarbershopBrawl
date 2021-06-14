@@ -29,6 +29,9 @@ public class Player : DamageableEntity {
 	[SerializeField] Transform damageSource;
 	[SerializeField] Animator animationController;
 	[SerializeField] ExtendoScript extendo;
+
+	[SerializeField] Transform extendoConnectPoint;
+	[SerializeField] Transform extendoDisplayTransform;
 	#endregion
 
 	#region Settings
@@ -95,6 +98,9 @@ public class Player : DamageableEntity {
 		UpdateHeavyAttack();
 
 		UpdateFire();
+
+		extendoDisplayTransform.position = extendoConnectPoint.position;
+		extendoDisplayTransform.rotation = extendoConnectPoint.rotation;
 	}
 
 	private void UpdateMovement() {
