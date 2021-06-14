@@ -75,7 +75,7 @@ public class Player : DamageableEntity {
 		if (rotationTransform == null) Debug.LogError("Player Rotation Point Not Found");
 		if (damageSource == null) Debug.LogError("Damage Source Transform Not Found");
 		if (animationController == null) Debug.LogError("Animation Controller Not Found");
-#endif
+		#endif
 
 		Health = maxHealth;
 	}
@@ -297,6 +297,7 @@ public class Player : DamageableEntity {
 		Health -= amount;
 
 		if (Health <= 0) {
+			Health = maxHealth;
 			// Player Death
 		}
 	}
