@@ -32,6 +32,9 @@ public class Player : DamageableEntity {
 
 	[SerializeField] Transform extendoConnectPoint;
 	[SerializeField] Transform extendoDisplayTransform;
+
+	[SerializeField] Transform razorConnectPoint;
+	[SerializeField] Transform razorDisplayTransform;
 	#endregion
 
 	#region Settings
@@ -101,6 +104,9 @@ public class Player : DamageableEntity {
 
 		extendoDisplayTransform.position = extendoConnectPoint.position;
 		extendoDisplayTransform.rotation = extendoConnectPoint.rotation;
+
+		razorDisplayTransform.position = razorConnectPoint.position;
+		razorDisplayTransform.rotation = razorConnectPoint.rotation;
 	}
 
 	private void UpdateMovement() {

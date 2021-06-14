@@ -299,6 +299,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Extendo Man
       objectReference: {fileID: 0}
+    - target: {fileID: 8705187692312249992, guid: fe9bf4d850d668446ad4823cff3d8180, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8705187692312249993, guid: fe9bf4d850d668446ad4823cff3d8180, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -541,6 +545,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3596409459355098914, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3596409459355098914, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25751084
+      objectReference: {fileID: 0}
+    - target: {fileID: 3596409459355098914, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.4210854e-16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3596409459355098914, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9930752
+      objectReference: {fileID: 0}
+    - target: {fileID: 3596409459355098914, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0000000626651
+      objectReference: {fileID: 0}
+    - target: {fileID: 3596409459355098914, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.11748027
+      objectReference: {fileID: 0}
+    - target: {fileID: 3596409459355098914, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.00000008763131
+      objectReference: {fileID: 0}
     - target: {fileID: 7874087548996359638, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
       propertyPath: m_Name
       value: LevelPackage
