@@ -18,6 +18,8 @@ public class GameManager {
 	}
 	#endregion
 
+	
+
 	public LevelManager LevelManager { get; private set; }
 
 	public void SetLevelManager(LevelManager levelManager) {

@@ -845,5 +845,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7874087549547021512, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
+      propertyPath: nextLevel
+      value: JosephTestCutscene
+      objectReference: {fileID: 0}
+    - target: {fileID: 7874087549547021512, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
+      propertyPath: isGameScene
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}

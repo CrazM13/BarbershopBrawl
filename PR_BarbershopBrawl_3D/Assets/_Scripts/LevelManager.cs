@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
 	[SerializeField] private Player player;
-	[SerializeField] private int levelID;
+	[SerializeField] private bool isGameScene;
+	[SerializeField] private string nextLevel;
 
 	private List<Enemy> enemies;
 
@@ -18,7 +21,7 @@ public class LevelManager : MonoBehaviour {
 	private void Update() {
 		if (CanLevelComplete()) {
 			// Complete Level
-			Debug.Log("Level Complete");
+			CompleteLevel();
 		}
 	}
 
@@ -35,7 +38,14 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public bool CanLevelComplete() {
-		return enemies.Count <= 0;
+		return isGameScene && enemies.Count <= 0;
+	}
+
+	public void CompleteLevel() {
+		Debug.Log("Level Complete");
+		if (nextLevel != "") {
+			SceneManager.LoadScene(nextLevel);
+		}
 	}
 
 }
