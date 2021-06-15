@@ -222,6 +222,7 @@ public class Player : DamageableEntity {
 			lightAttackTimeRemaining -= Time.deltaTime;
 			if (lightAttackTimeRemaining <= 0) {
 				state = PlayerState.LIGHT_SWING;
+				ApplyLightAttackDamage();
 				lightAttackTimeRemaining = lightAttackDuration;
 			}
 		}
@@ -248,6 +249,7 @@ public class Player : DamageableEntity {
 			heavyAttackTimeRemaining -= Time.deltaTime;
 			if (heavyAttackTimeRemaining <= 0) {
 				state = PlayerState.HEAVY_SWING;
+				ApplyHeavyAttackDamage();
 				heavyAttackTimeRemaining = heavyAttackDuration;
 			}
 		}
@@ -360,7 +362,7 @@ public class Player : DamageableEntity {
 
 		Vector3 joyInput = ReadMovementInputs();
 
-		if (joyInput == Vector3.zero) joyInput = Vector3.back;
+		if (joyInput == Vector3.zero) joyInput = -LastLookVector;
 
 		dodgeForceVector = joyInput * dodgeForce;
 
@@ -406,7 +408,7 @@ public class Player : DamageableEntity {
 	}
 
 	public void ApplyLightAttackDamage() {
-		RaycastHit[] hits = Physics.BoxCastAll(damageSource.position + (LastLookVector * lightAttackRange), new Vector3(lightAttackRange, lightAttackRange, lightAttackRange), LastLookVector);
+		RaycastHit[] hits = Physics.BoxCastAll(damageSource.position + (LastLookVector * lightAttackRange), new Vector3(lightAttackRange, lightAttackRange, lightAttackRange), LastLookVector, Quaternion.identity, lightAttackRange);
 
 		foreach (RaycastHit hit in hits) {
 			DamageableEntity entity = hit.collider.GetComponentInChildren<DamageableEntity>();
@@ -427,6 +429,9 @@ public class Player : DamageableEntity {
 	}
 
 	public void ApplyHeavyAttackDamage() {
+
+		Debug.DrawLine(damageSource.position, damageSource.position + (LastLookVector * heavyAttackRange), Color.red, 10);
+
 		if (Physics.Raycast(damageSource.position, LastLookVector, out RaycastHit hit, heavyAttackRange)) {
 			DamageableEntity entity = hit.collider.GetComponentInChildren<DamageableEntity>();
 			if (entity) entity.OnDamageEntity(Damage.HeavyDamage(heavyAttackDamage));

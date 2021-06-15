@@ -28,7 +28,7 @@ public class EnemyExtendoMan : Enemy {
 			Vector3 playerPos = GameManager.Instance.LevelManager.GetPlayerPosition();
 
 			Vector3 lookDirection = playerPos - transform.position;
-			transform.rotation = Quaternion.LookRotation(new Vector3(lookDirection.x, 0, lookDirection.z));
+			rotation.rotation = Quaternion.LookRotation(new Vector3(lookDirection.x, 0, lookDirection.z));
 
 			if (Vector3.Distance(transform.position, targetPosition) < 3) {
 
@@ -52,20 +52,8 @@ public class EnemyExtendoMan : Enemy {
 			Health -= damage.Amount;
 
 			if (Health <= 0) {
-				Health = maxHealth;
-				Debug.Log("DEAD");
+				state = EnemyState.DEAD;
 			}
 		}
-	}
-
-	private void OnDrawGizmos() {
-		if (GameManager.Instance?.LevelManager == null) return;
-		Vector3 playerPos = GameManager.Instance.LevelManager.GetPlayerPosition();
-
-		Handles.DrawWireDisc(playerPos, Vector3.up, minDistanceToPlayer);
-		Handles.DrawWireDisc(playerPos, Vector3.up, maxDistanceToPlayer);
-
-		
-		Handles.DrawSolidDisc(targetPosition, Vector3.up, 1);
 	}
 }

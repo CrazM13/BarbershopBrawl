@@ -10,15 +10,14 @@ public class EnemyDummy : Enemy {
 			Health -= damage.Amount;
 
 			if (Health <= 0) {
-				Health = maxHealth;
-				Debug.Log("DEAD");
+				state = EnemyState.DEAD;
 			}
 		}
 	}
 
 	// Start is called before the first frame update
 	void Start() {
-
+		Health = maxHealth;
 	}
 
 	// Update is called once per frame

@@ -18,7 +18,8 @@ public abstract class Enemy : DamageableEntity {
 		HEAVY_WINDUP,
 		HEAVY_SWING,
 		KICK_WINDUP,
-		AIMING
+		AIMING,
+		DEAD
 	}
 	#endregion
 
@@ -26,6 +27,8 @@ public abstract class Enemy : DamageableEntity {
 	[SerializeField] protected NavMeshAgent pathfinding;
 	[SerializeField] Rigidbody physicsBody;
 	[SerializeField] ExtendoScript rangedItem;
+	[SerializeField] protected Animator animationController;
+	[SerializeField] Transform rootTransform;
 	#endregion
 
 	#region Settings
@@ -50,9 +53,50 @@ public abstract class Enemy : DamageableEntity {
 	private float lightAttackTimeRemaining = 0;
 	private float heavyAttackTimeRemaining = 0;
 
+	private float deathTimeRemaining = 10f;
+
+	private int prevHealth;
+
 	private Vector3 knockbackRemaining = Vector3.zero;
 
+	private bool isRegistered = false;
+
+	protected void RegisterEnemy() {
+		GameManager.Instance?.LevelManager?.RegisterEnemy(this);
+
+		isRegistered = true;
+	}
+
 	protected void UpdateStateMachine() {
+		if (!isRegistered) {
+			RegisterEnemy();
+		}
+
+		if (prevHealth != Health) {
+			animationController.SetTrigger("hurt");
+			prevHealth = Health;
+		}
+
+		if (state == EnemyState.DEAD) {
+			if (GameManager.Instance?.LevelManager != null) {
+				Vector3 playerPos = GameManager.Instance.LevelManager.GetPlayerPosition();
+
+				Vector3 lookDirection = playerPos - transform.position;
+
+				pathfinding.speed = 20f;
+				pathfinding.angularSpeed = 120f;
+				MoveToLocation(transform.position + (-lookDirection * 1));
+			}
+
+			deathTimeRemaining -= Time.deltaTime;
+			if (deathTimeRemaining <= 0) {
+				rootTransform.gameObject.SetActive(false);
+				GameManager.Instance?.LevelManager?.UnegisterEnemy(this);
+			}
+		}
+
+		animationController.SetBool("is_moving", pathfinding.hasPath);
+
 		if (state == EnemyState.STUNNED) {
 			stunTimeRemaining -= Time.deltaTime;
 			if (stunTimeRemaining <= 0) {
@@ -135,6 +179,8 @@ public abstract class Enemy : DamageableEntity {
 		state = EnemyState.STUNNED;
 		stunTimeRemaining = stunDuration;
 		knockbackRemaining = direction * force;
+
+		animationController.SetTrigger("dodge");
 	}
 
 	protected void MoveToLocation(Vector3 location) {
@@ -150,16 +196,23 @@ public abstract class Enemy : DamageableEntity {
 	protected void StartHeavyAttack() {
 		state = EnemyState.HEAVY_WINDUP;
 		heavyAttackTimeRemaining = heavyAttackWindupTime;
+
+		animationController.SetTrigger("heavy_attack");
 	}
 
 	protected void StartLightAttack() {
 		state = EnemyState.LIGHT_WINDUP;
 		heavyAttackTimeRemaining = lightAttackWindupTime;
+
+		animationController.SetTrigger("light_attack");
+		animationController.SetBool("light_attack_mirror", !animationController.GetBool("light_attack_mirror"));
 	}
 
 	protected void StartKickAttack() {
 		state = EnemyState.KICK_WINDUP;
 		kickTimeRemaining = kickWindupTime;
+
+		animationController.SetTrigger("kick");
 	}
 
 	protected void Fire() {

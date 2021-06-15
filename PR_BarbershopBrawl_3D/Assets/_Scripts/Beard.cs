@@ -12,7 +12,11 @@ public class Beard : MonoBehaviour {
 
 	// Start is called before the first frame update
 	void Start() {
+		for (int i = 0; i < beardPieces.Length; i++) {
+			beardPieces[i].SetActive(i < entity.Health);
+		}
 
+		previousHealth = entity.Health;
 	}
 
 	// Update is called once per frame

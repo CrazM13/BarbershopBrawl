@@ -35,8 +35,7 @@ public class EnemyHound : Enemy {
 			Health -= damage.Amount;
 
 			if (Health <= 0) {
-				Health = maxHealth;
-				Debug.Log("DEAD");
+				state = EnemyState.DEAD;
 			}
 		}
 	}
