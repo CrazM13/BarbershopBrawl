@@ -576,7 +576,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 7874087549779364430}
-  levelID: 255
+  isGameScene: 0
+  nextLevel: 
 --- !u!1 &7874087549588714486
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,8 +811,8 @@ MonoBehaviour:
   kickForce: 20
   stunDuration: 2
   lightAttackCompletionTime: 0.5
-  lightAttackWindupTime: 1.1165
-  lightAttackDuration: 1.1165
+  lightAttackWindupTime: 0.55825
+  lightAttackDuration: 0.55825
   lightAttackRange: 2
   lightAttackDamage: 1
   heavyAttackWindupTime: 1.1335

@@ -108,8 +108,8 @@ MonoBehaviour:
   kickDistance: 0
   kickForce: 0
   lightAttackCompletionTime: 0.5
-  lightAttackWindupTime: 1.1165
-  lightAttackDuration: 1.1165
+  lightAttackWindupTime: 0.55825
+  lightAttackDuration: 0.55825
   lightAttackRange: 2
   lightAttackDamage: 1
   heavyAttackWindupTime: 1.1335
