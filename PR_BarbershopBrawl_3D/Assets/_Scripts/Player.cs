@@ -214,6 +214,7 @@ public class Player : DamageableEntity {
 			lightAttackTimeRemaining -= Time.deltaTime;
 			if (lightAttackTimeRemaining <= 0) {
 				state = PlayerState.LIGHT_COMPLETE;
+				ApplyLightAttackDamage();
 				lightAttackTimeRemaining = lightAttackCompletionTime;
 			}
 		}
@@ -222,7 +223,6 @@ public class Player : DamageableEntity {
 			lightAttackTimeRemaining -= Time.deltaTime;
 			if (lightAttackTimeRemaining <= 0) {
 				state = PlayerState.LIGHT_SWING;
-				ApplyLightAttackDamage();
 				lightAttackTimeRemaining = lightAttackDuration;
 			}
 		}
