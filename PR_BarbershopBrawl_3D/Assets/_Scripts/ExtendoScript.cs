@@ -38,7 +38,7 @@ public class ExtendoScript : MonoBehaviour {
 			extendTimer -= Time.deltaTime;
 
 			transform.position += direction * speed * Time.deltaTime;
-			RaycastHit[] hits = Physics.BoxCastAll(transform.position, new Vector3(detectRadius, detectRadius, detectRadius), direction, Quaternion.identity, detectRadius, ~ignoreLayers);
+			RaycastHit[] hits = Physics.BoxCastAll(transform.position, new Vector3(detectRadius, detectRadius, detectRadius), direction, Quaternion.identity, detectRadius, ~(ignoreLayers | (1 << LayerMask.NameToLayer("RangedPassthrough"))));
 
 			if (hits.Length > 0) {
 				state = ProjectileState.RETURNING;
