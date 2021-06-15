@@ -97,6 +97,8 @@ MonoBehaviour:
   heavyAttackDuration: 1.1335
   heavyAttackRange: 2
   heavyAttackDamage: 3
+  sightDistance: 15
+  maxChaseTime: 30
   meleeDistanceToPlayer: 2
 --- !u!195 &4256772386917121100
 NavMeshAgent:

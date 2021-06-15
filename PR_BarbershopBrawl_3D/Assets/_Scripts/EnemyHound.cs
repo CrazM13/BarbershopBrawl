@@ -16,12 +16,10 @@ public class EnemyHound : Enemy {
 	void Update() {
 		UpdateStateMachine();
 
-		if (GameManager.Instance?.LevelManager && state == EnemyState.DEFAULT) {
+		if (lastPlayerPosition.HasValue && state == EnemyState.DEFAULT) {
 
-			Vector3 playerPos = GameManager.Instance.LevelManager.GetPlayerPosition();
-
-			if (Vector3.Distance(transform.position, playerPos) > meleeDistanceToPlayer) {
-				MoveToLocation(playerPos);
+			if (Vector3.Distance(transform.position, lastPlayerPosition.Value) > meleeDistanceToPlayer) {
+				MoveToLocation(lastPlayerPosition.Value);
 			} else {
 				StartHeavyAttack();
 			}
@@ -29,10 +27,14 @@ public class EnemyHound : Enemy {
 	}
 
 	public override void OnDamageEntity(Damage damage) {
+		seePlayerTime = maxChaseTime;
+
 		if (damage.Type == Damage.DamageType.KNOCKDOWN) {
 			Knockdown(damage.Amount, damage.Direction);
 		} else {
 			Health -= damage.Amount;
+
+			DamageStun();
 
 			if (Health <= 0) {
 				state = EnemyState.DEAD;

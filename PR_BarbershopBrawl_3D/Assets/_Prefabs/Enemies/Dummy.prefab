@@ -97,6 +97,8 @@ MonoBehaviour:
   heavyAttackDuration: 0
   heavyAttackRange: 0
   heavyAttackDamage: 0
+  sightDistance: 5
+  maxChaseTime: 5
 --- !u!195 &1551532593124975097
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -97,6 +97,8 @@ MonoBehaviour:
   heavyAttackDuration: 1.1335
   heavyAttackRange: 2
   heavyAttackDamage: 3
+  sightDistance: 15
+  maxChaseTime: 30
   meleeDistanceToPlayer: 2
 --- !u!195 &1573738569197461630
 NavMeshAgent:
@@ -252,6 +254,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: d00338da107bd6e4782beccafe7c05ae, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 8de424e098fdb7b4893d01ba6a0b5146, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8de424e098fdb7b4893d01ba6a0b5146, type: 3}
 --- !u!4 &8947999433567859745 stripped

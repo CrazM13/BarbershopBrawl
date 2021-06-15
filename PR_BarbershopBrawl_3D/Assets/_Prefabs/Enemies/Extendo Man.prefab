@@ -560,6 +560,8 @@ MonoBehaviour:
   heavyAttackDuration: 0
   heavyAttackRange: 0
   heavyAttackDamage: 0
+  sightDistance: 30
+  maxChaseTime: 30
   minDistanceToPlayer: 10
   maxDistanceToPlayer: 14
   rotation: {fileID: 8705187693459702591}

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.Experimental.TerrainAPI;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
@@ -46,6 +48,8 @@ public abstract class Enemy : DamageableEntity {
 	[SerializeField] float heavyAttackDuration;
 	[SerializeField] float heavyAttackRange;
 	[SerializeField] int heavyAttackDamage;
+	[SerializeField] float sightDistance = 5;
+	[SerializeField] protected float maxChaseTime;
 	#endregion
 
 	private float stunTimeRemaining = 0;
@@ -61,6 +65,9 @@ public abstract class Enemy : DamageableEntity {
 
 	private bool isRegistered = false;
 
+	protected Vector3? lastPlayerPosition;
+	protected float seePlayerTime = 0;
+
 	protected void RegisterEnemy() {
 		GameManager.Instance?.LevelManager?.RegisterEnemy(this);
 
@@ -75,6 +82,21 @@ public abstract class Enemy : DamageableEntity {
 		if (prevHealth != Health) {
 			animationController.SetTrigger("hurt");
 			prevHealth = Health;
+		}
+
+		if (seePlayerTime > 0) seePlayerTime -= Time.deltaTime;
+
+		if (GameManager.Instance?.LevelManager != null) {
+			Vector3 playerPos = GameManager.Instance.LevelManager.GetPlayerPosition();
+			Debug.Log(Vector3.Distance(playerPos, transform.forward));
+			if (seePlayerTime > 0) {
+				lastPlayerPosition = playerPos;
+			} else if (CanSeeLocation(playerPos, transform.forward) && Vector3.Distance(playerPos, transform.position) < sightDistance) {
+				lastPlayerPosition = playerPos;
+				seePlayerTime = maxChaseTime;
+			} else {
+				lastPlayerPosition = null;
+			}
 		}
 
 		if (state == EnemyState.DEAD) {
@@ -188,7 +210,7 @@ public abstract class Enemy : DamageableEntity {
 	}
 
 	public bool CanSeeLocation(Vector3 position, Vector3 sightVector, float visionAngle = 90) {
-		float angle = Vector3.Angle(position, sightVector);
+		float angle = Vector3.Angle(-sightVector, (transform.position - position).normalized);
 
 		return angle < visionAngle;
 	}
@@ -213,6 +235,11 @@ public abstract class Enemy : DamageableEntity {
 		kickTimeRemaining = kickWindupTime;
 
 		animationController.SetTrigger("kick");
+	}
+
+	protected void DamageStun() {
+		stunTimeRemaining = 1.1533f;
+		state = EnemyState.STUNNED;
 	}
 
 	protected void Fire() {
