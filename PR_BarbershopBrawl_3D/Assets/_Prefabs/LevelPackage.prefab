@@ -577,6 +577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 7874087549779364430}
   isGameScene: 0
+  levelName: 
   nextLevel: 
 --- !u!1 &7874087549588714486
 GameObject:
@@ -677,6 +678,7 @@ MonoBehaviour:
   detectRadius: 1
   damage: 1
   speed: 20
+  cooldown: 0.5
   ignoreLayers:
     serializedVersion: 2
     m_Bits: 8

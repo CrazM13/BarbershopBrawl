@@ -9,11 +9,14 @@ public class ExtendoScript : MonoBehaviour {
 	[SerializeField] float detectRadius;
 	[SerializeField] int damage;
 	[SerializeField] float speed;
+	[SerializeField] float cooldown = 0.5f;
 	[SerializeField] LayerMask ignoreLayers;
 	[SerializeField] Transform returnTransform;
 
 	private ProjectileState state;
 	private float extendTimer;
+
+	private float cdTime = 0;
 
 	private Vector3 direction;
 
@@ -24,11 +27,13 @@ public class ExtendoScript : MonoBehaviour {
 	}
 
 	void Start() {
-		
+		cdTime = cooldown;
 	}
 
 	// Update is called once per frame
 	void Update() {
+		if (cdTime > 0) cdTime -= Time.deltaTime;
+
 		if (state == ProjectileState.EXTENDING) {
 			extendTimer -= Time.deltaTime;
 
@@ -54,6 +59,7 @@ public class ExtendoScript : MonoBehaviour {
 			if (Vector3.Distance(returnTransform.position, transform.position) < 1) {
 				state = ProjectileState.IDLE;
 				transform.position = returnTransform.position;
+				cdTime = cooldown;
 			}
 		} else if (state == ProjectileState.IDLE) {
 			transform.position = returnTransform.position;
@@ -61,7 +67,7 @@ public class ExtendoScript : MonoBehaviour {
 	}
 
 	public bool Fire(Vector3 direction) {
-		if (state != ProjectileState.IDLE) return false;
+		if (state != ProjectileState.IDLE || cdTime > 0) return false;
 
 		this.direction = direction;
 
