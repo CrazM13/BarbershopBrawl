@@ -26,4 +26,16 @@ public class GameManager {
 		this.LevelManager = levelManager;
 	}
 
+	public string GetContinueLevel() {
+		if (PlayerPrefs.HasKey("SavedLevel")) {
+			return PlayerPrefs.GetString("SavedLevel");
+		}
+
+		return "";
+	}
+
+	public void SetContinueLevel(string levelToSave) {
+		PlayerPrefs.SetString("SavedLevel", levelToSave);
+	}
+
 }

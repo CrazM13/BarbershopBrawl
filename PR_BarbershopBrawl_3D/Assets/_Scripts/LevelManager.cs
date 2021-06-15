@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour {
 
 	[SerializeField] private Player player;
 	[SerializeField] private bool isGameScene;
+	[SerializeField] private string levelName;
 	[SerializeField] private string nextLevel;
 
 	private List<Enemy> enemies;
@@ -15,6 +16,8 @@ public class LevelManager : MonoBehaviour {
 
 	private void Start() {
 		GameManager.Instance.SetLevelManager(this);
+
+		if (isGameScene) GameManager.Instance.SetContinueLevel(levelName);
 
 		enemies = new List<Enemy>();
 	}
