@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/_Scene/JosephTestScene.unity
+    guid: 5905e5ec1241b94499a1c29a9b2fe415
+  - enabled: 1
+    path: Assets/_Scene/JosephTestCutscene.unity
+    guid: 2e55149320a99ab4ebe18db4ec782519
   m_configObjects: {}

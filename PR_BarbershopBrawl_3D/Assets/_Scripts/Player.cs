@@ -412,7 +412,7 @@ public class Player : DamageableEntity {
 
 		foreach (RaycastHit hit in hits) {
 			DamageableEntity entity = hit.collider.GetComponentInChildren<DamageableEntity>();
-			if (entity) entity.OnDamageEntity(Damage.LightDamage(lightAttackDamage));
+			if (entity && !(entity is Player)) entity.OnDamageEntity(Damage.LightDamage(lightAttackDamage));
 		}
 
 	}
@@ -443,9 +443,7 @@ public class Player : DamageableEntity {
 
 	#region Fire
 	public void Fire() {
-		bool success = extendo.Fire(LastLookVector);
-
-		if (success) animationController.SetTrigger("fire");
+		extendo.Fire(LastLookVector);
 	}
 	#endregion
 

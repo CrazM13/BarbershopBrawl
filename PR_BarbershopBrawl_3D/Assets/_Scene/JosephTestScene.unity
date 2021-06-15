@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hound
       objectReference: {fileID: 0}
+    - target: {fileID: 1573738569197461629, guid: 5355eae04965bdf479470b98df5e2361, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5355eae04965bdf479470b98df5e2361, type: 3}
 --- !u!1001 &549363059
@@ -235,6 +239,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Regular Dude
       objectReference: {fileID: 0}
+    - target: {fileID: 4660152824823235358, guid: ea8ff66226875494e8c84abc4dda2ab6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea8ff66226875494e8c84abc4dda2ab6, type: 3}
 --- !u!1001 &884424175
@@ -247,6 +255,10 @@ PrefabInstance:
     - target: {fileID: 4256772386917121091, guid: b26bc7e363c479b46b28ae2d535b3342, type: 3}
       propertyPath: m_Name
       value: Burly Man
+      objectReference: {fileID: 0}
+    - target: {fileID: 4256772386917121091, guid: b26bc7e363c479b46b28ae2d535b3342, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4256772386917121097, guid: b26bc7e363c479b46b28ae2d535b3342, type: 3}
       propertyPath: m_RootOrder
@@ -348,6 +360,10 @@ PrefabInstance:
     - target: {fileID: 7708890942776611159, guid: 158d3cad9ea4a74439d8e84cd7814901, type: 3}
       propertyPath: m_Name
       value: Dummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7708890942776611159, guid: 158d3cad9ea4a74439d8e84cd7814901, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 158d3cad9ea4a74439d8e84cd7814901, type: 3}
@@ -526,6 +542,10 @@ PrefabInstance:
     - target: {fileID: 8705187692312249992, guid: fe9bf4d850d668446ad4823cff3d8180, type: 3}
       propertyPath: m_Name
       value: Extendo Man
+      objectReference: {fileID: 0}
+    - target: {fileID: 8705187692312249992, guid: fe9bf4d850d668446ad4823cff3d8180, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8705187692312249993, guid: fe9bf4d850d668446ad4823cff3d8180, type: 3}
       propertyPath: m_RootOrder

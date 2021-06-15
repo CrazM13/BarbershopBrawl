@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour {
 	[SerializeField] private string nextLevel;
 
 	private List<Enemy> enemies;
+	private bool hasEnemiesRegistered = false;
 
 	private void Start() {
 		GameManager.Instance.SetLevelManager(this);
@@ -27,6 +28,7 @@ public class LevelManager : MonoBehaviour {
 
 	public void RegisterEnemy(Enemy enemy) {
 		enemies.Add(enemy);
+		hasEnemiesRegistered = true;
 	}
 
 	public void UnegisterEnemy(Enemy enemy) {
@@ -38,7 +40,7 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public bool CanLevelComplete() {
-		return isGameScene && enemies.Count <= 0;
+		return isGameScene && hasEnemiesRegistered && enemies.Count <= 0;
 	}
 
 	public void CompleteLevel() {
