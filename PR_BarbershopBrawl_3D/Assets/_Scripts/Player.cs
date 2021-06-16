@@ -310,7 +310,7 @@ public class Player : DamageableEntity {
 		Health -= amount;
 
 		if (Health <= 0) {
-			SceneManager.LoadScene("MainMenu");
+			SceneManager.LoadScene("Lose");
 		}
 	}
 
