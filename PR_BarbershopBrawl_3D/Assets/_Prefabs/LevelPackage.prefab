@@ -675,7 +675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxExtendTime: 1
   returnOnCollide: 0
-  detectRadius: 1
+  detectRadius: 0.5
   damage: 1
   speed: 20
   cooldown: 0.5
@@ -814,7 +814,7 @@ MonoBehaviour:
   stunDuration: 2
   lightAttackCompletionTime: 0.5
   lightAttackWindupTime: 0.55825
-  lightAttackDuration: 0.55825
+  lightAttackDuration: 0.5585
   lightAttackRange: 2
   lightAttackDamage: 1
   heavyAttackWindupTime: 1.1335
@@ -1066,7 +1066,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 8de424e098fdb7b4893d01ba6a0b5146, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: d00338da107bd6e4782beccafe7c05ae, type: 2}
+      objectReference: {fileID: 9100000, guid: 8b974215308e3e74db57822a43a3bd28, type: 2}
     - target: {fileID: 5866666021909216657, guid: 8de424e098fdb7b4893d01ba6a0b5146, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

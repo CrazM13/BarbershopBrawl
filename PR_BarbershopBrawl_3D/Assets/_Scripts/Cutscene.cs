@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +9,12 @@ public class Cutscene : MonoBehaviour {
 
 	[SerializeField] private CutsceneScene[] scenes;
 
+	
+
 	[SerializeField] private RawImage imageBox;
 	[SerializeField] private Text textBox;
+	[SerializeField] private Text nameBoxLeft;
+	[SerializeField] private Text nameBoxRight;
 
 	[SerializeField] private float typeSpeed;
 	
@@ -22,6 +27,11 @@ public class Cutscene : MonoBehaviour {
 
 	void Start() {
 		imageBox.texture = scenes[sceneIndex].image;
+		nameBoxLeft.text = scenes[sceneIndex].name;
+		nameBoxRight.text = scenes[sceneIndex].name;
+
+		nameBoxLeft.transform.parent.gameObject.SetActive(scenes[sceneIndex].leftNameplate);
+		nameBoxRight.transform.parent.gameObject.SetActive(scenes[sceneIndex].rightNameplate);
 	}
 
 	void Update() {
@@ -40,6 +50,11 @@ public class Cutscene : MonoBehaviour {
 					sceneIndex++;
 					textIndex = 0;
 					imageBox.texture = scenes[sceneIndex].image;
+					nameBoxLeft.text = scenes[sceneIndex].name;
+					nameBoxRight.text = scenes[sceneIndex].name;
+
+					nameBoxLeft.transform.parent.gameObject.SetActive(scenes[sceneIndex].leftNameplate);
+					nameBoxRight.transform.parent.gameObject.SetActive(scenes[sceneIndex].rightNameplate);
 				} else {
 					GameManager.Instance?.LevelManager?.CompleteLevel();
 				}
@@ -54,4 +69,7 @@ public class Cutscene : MonoBehaviour {
 public class CutsceneScene {
 	public Texture2D image;
 	public string text;
+	public string name;
+	public bool leftNameplate = false;
+	public bool rightNameplate = false;
 }
