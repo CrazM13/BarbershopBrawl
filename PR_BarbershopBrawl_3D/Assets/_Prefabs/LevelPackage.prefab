@@ -803,9 +803,9 @@ MonoBehaviour:
   extendoDisplayTransform: {fileID: 7874087548514559480}
   razorConnectPoint: {fileID: 8427303775620540968}
   razorDisplayTransform: {fileID: 3596409459355098914}
-  movementSpeed: 1
+  movementSpeed: 5
   aimSpeedModifier: 1
-  dodgeForce: 2
+  dodgeForce: 20
   dodgeDecaySpeed: 1.5
   dodgeCompletionTime: 1.4
   kickWindupTime: 0.7

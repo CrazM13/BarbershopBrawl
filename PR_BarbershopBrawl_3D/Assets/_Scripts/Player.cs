@@ -61,6 +61,7 @@ public class Player : DamageableEntity {
 	private float stunTimeRemaining = 0;
 	private float timeRemainingInDodge = 0;
 	private Vector3 dodgeForceVector = Vector3.zero;
+	private Vector3 knockdownForceVector = Vector3.zero;
 	private float kickTimeRemaining = 0;
 	private float lightAttackTimeRemaining = 0;
 	private float heavyAttackTimeRemaining = 0;
@@ -152,7 +153,7 @@ public class Player : DamageableEntity {
 		}
 		if (state == PlayerState.DODGING) {
 			timeRemainingInDodge -= Time.deltaTime;
-			physicsBody.AddForce(dodgeForceVector, ForceMode.Impulse);
+			physicsBody.velocity = dodgeForceVector;
 			dodgeForceVector = Vector3.Lerp(dodgeForceVector, Vector3.zero, Time.deltaTime * dodgeDecaySpeed);
 			if (timeRemainingInDodge <= 0) {
 				state = PlayerState.DEFAULT;
@@ -196,6 +197,10 @@ public class Player : DamageableEntity {
 	private void UpdateStun() {
 		if (state == PlayerState.STUNNED) {
 			stunTimeRemaining -= Time.deltaTime;
+
+			physicsBody.velocity = knockdownForceVector;
+			knockdownForceVector = Vector3.Lerp(knockdownForceVector, Vector3.zero, Time.deltaTime * dodgeDecaySpeed);
+
 			if (stunTimeRemaining <= 0) {
 				state = PlayerState.DEFAULT;
 			}
@@ -285,7 +290,7 @@ public class Player : DamageableEntity {
 				} else if (state == PlayerState.BLOCKING) {
 					state = PlayerState.STUNNED;
 					stunTimeRemaining = stunDuration;
-					physicsBody.AddForce(damage.Direction * damage.Amount * 100);
+					knockdownForceVector = damage.Direction * damage.Amount;
 				}
 				break;
 			default:
@@ -327,7 +332,7 @@ public class Player : DamageableEntity {
 	private void Move(Vector3 direction) {
 		Vector3 movementVector = direction * GetMovementSpeedFromState(state);
 
-		physicsBody.AddForce(movementVector, ForceMode.Impulse);
+		physicsBody.velocity = movementVector;
 	}
 
 	private float GetMovementSpeedFromState(PlayerState state) {

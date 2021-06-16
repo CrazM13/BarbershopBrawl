@@ -88,7 +88,6 @@ public abstract class Enemy : DamageableEntity {
 
 		if (GameManager.Instance?.LevelManager != null) {
 			Vector3 playerPos = GameManager.Instance.LevelManager.GetPlayerPosition();
-			Debug.Log(Vector3.Distance(playerPos, transform.forward));
 			if (seePlayerTime > 0) {
 				lastPlayerPosition = playerPos;
 			} else if (CanSeeLocation(playerPos, transform.forward) && Vector3.Distance(playerPos, transform.position) < sightDistance) {

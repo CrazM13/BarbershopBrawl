@@ -17,7 +17,7 @@ public class LevelManager : MonoBehaviour {
 	private void Start() {
 		GameManager.Instance.SetLevelManager(this);
 
-		if (isGameScene) GameManager.Instance.SetContinueLevel(levelName);
+		GameManager.Instance.SetContinueLevel(levelName);
 
 		enemies = new List<Enemy>();
 	}
@@ -26,6 +26,12 @@ public class LevelManager : MonoBehaviour {
 		if (CanLevelComplete()) {
 			// Complete Level
 			CompleteLevel();
+		}
+
+		if (Input.GetKeyDown(KeyCode.Backspace)) {
+			foreach (Enemy e in enemies) {
+				e.OnDamageEntity(Damage.LightDamage(10000));
+			}
 		}
 	}
 
