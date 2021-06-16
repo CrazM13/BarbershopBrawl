@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class Player : DamageableEntity {
 
@@ -310,8 +310,7 @@ public class Player : DamageableEntity {
 		Health -= amount;
 
 		if (Health <= 0) {
-			Health = maxHealth;
-			// Player Death
+			SceneManager.LoadScene("MainMenu");
 		}
 	}
 
