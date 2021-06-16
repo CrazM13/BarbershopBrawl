@@ -73,6 +73,8 @@ public class ExtendoScript : MonoBehaviour {
 
 		extendTimer = maxExtendTime;
 
+		cdTime = cooldown;
+
 		transform.position = returnTransform.position;
 		state = ProjectileState.EXTENDING;
 
