@@ -962,7 +962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7874087549547021512, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
       propertyPath: nextLevel
-      value: JosephTestCutscene
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7874087549547021512, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
       propertyPath: isGameScene
