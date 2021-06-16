@@ -1388,7 +1388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ca091ca5eba5648b86d2d9144e3145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newGameScene: Level 1
+  newGameScene: Cutscene_0
   continueButton: {fileID: 278754590}
   optionsMenu: {fileID: 1242041693}
 --- !u!1 &1620086251

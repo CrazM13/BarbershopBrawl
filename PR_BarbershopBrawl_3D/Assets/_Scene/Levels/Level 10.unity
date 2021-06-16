@@ -2905,19 +2905,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7874087549547021512, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
       propertyPath: nextLevel
-      value: MainMenu
+      value: Cutscene_10
       objectReference: {fileID: 0}
     - target: {fileID: 7874087549547021512, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
       propertyPath: isGameScene
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7874087549779364430, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
-      propertyPath: dodgeForce
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7874087549779364430, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
-      propertyPath: movementSpeed
-      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7874087549779364469, guid: 1fb3de16b3eafea46bed6e994cb91ed1, type: 3}
       propertyPath: m_IsActive
