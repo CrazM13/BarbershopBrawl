@@ -399,13 +399,18 @@ public class Player : DamageableEntity {
 			state = PlayerState.LIGHT_SWING;
 			ApplyLightAttackDamage();
 			lightAttackTimeRemaining = lightAttackDuration;
+
+			animationController.SetTrigger("light_attack");
+			animationController.SetBool("light_attack_mirror", !animationController.GetBool("light_attack_mirror"));
 		} else {
 			state = PlayerState.LIGHT_WINDUP;
 			lightAttackTimeRemaining = lightAttackWindupTime;
+
+			animationController.SetTrigger("light_attack_windup");
+			animationController.SetBool("light_attack_mirror", false);
 		}
 
-		animationController.SetTrigger("light_attack");
-		animationController.SetBool("light_attack_mirror", !animationController.GetBool("light_attack_mirror"));
+		
 	}
 
 	public void ApplyLightAttackDamage() {
